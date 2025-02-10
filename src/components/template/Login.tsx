@@ -34,7 +34,9 @@ const Login = () => {
 					sx={{
 						flexDirection: "column",
 						alignContent: "center",
-						padding: "0 4rem",
+						px: {
+							md: 10,
+						},
 						height: "100%",
 						backgroundColor: "rgba(255, 255, 255, 0.2)",
 						backdropFilter: "blur(2px)",
