@@ -5,10 +5,8 @@ import Cookies from "js-cookie";
 
 interface IAuthState {
 	user: {
-		id?: number;
-		name?: string;
+		uid?: string;
 		email: string;
-		password: string;
 	} | null;
 	loading: boolean;
 	error: string | null;

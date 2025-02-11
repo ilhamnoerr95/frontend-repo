@@ -17,6 +17,7 @@
 		"@mui/material": "^6.4.3",
 		"@reduxjs/toolkit": "^2.5.1",
 		"@types/js-cookie": "^3.0.6",
+		"cors": "^2.8.5",
 		"firebase": "^11.3.0",
 		"formik": "^2.4.6",
 		"js-cookie": "^3.0.5",
