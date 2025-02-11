@@ -33,17 +33,17 @@ const Home = () => {
 						user: { id: string; email: string; username: string },
 						index: number
 					) => (
-						<Grid size={{ xs: 12, md: 4, lg: 3 }}>
+						<Grid
+							key={index}
+							size={{ xs: 12, md: 4, lg: 3 }}
+						>
 							<Box
 								sx={{
 									maxWidth: { xs: "100%", md: 275, lg: "100%" },
 									maxHeight: 180,
 								}}
 							>
-								<Card
-									variant="outlined"
-									key={index}
-								>
+								<Card variant="outlined">
 									<CardContent>
 										<Typography
 											gutterBottom
