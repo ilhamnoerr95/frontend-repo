@@ -56,11 +56,8 @@ const Login = () => {
 				setState((prev) => ({ ...prev, open: true }));
 				router.push("/home");
 			}
-			console.log(result);
 		},
 	});
-
-	console.log(state);
 
 	return (
 		<Container maxWidth="sm">
