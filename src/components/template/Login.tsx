@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useRef } from "react";
 
 // uicomponent
@@ -9,11 +11,34 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { TextField } from "@mui/material";
+import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
 
 import { useFormik } from "formik";
 
+// redux
+import { useSelector, useDispatch } from "react-redux";
+import { loginUser } from "@/store/loginSlice";
+import type { RootState } from "@/store/index";
+
+import { useRouter } from "next/navigation";
+
+interface State extends SnackbarOrigin {
+	open: boolean;
+}
+
 const Login = () => {
+	const router = useRouter();
+
 	const form = useRef(null);
+	const dispatch = useDispatch();
+	const [state, setState] = React.useState<State>({
+		open: false,
+		vertical: "top",
+		horizontal: "center",
+	});
+	const { loading, error } = useSelector((state: RootState) => state.auth);
+
+	const { vertical, horizontal, open } = state;
 
 	const formik = useFormik({
 		initialValues: {
@@ -21,14 +46,31 @@ const Login = () => {
 			password: "",
 		},
 
-		onSubmit: (values) => {
-			console.log(values);
+		onSubmit: async (values) => {
 			// Here you can make an API call or do any other logic based on the form values.
+			const result = await dispatch(
+				loginUser({ email: values.email, password: values.password }) as any
+			);
+
+			if (result?.meta?.requestStatus === "fulfilled") {
+				setState((prev) => ({ ...prev, open: true }));
+				router.push("/home");
+			}
+			console.log(result);
 		},
 	});
 
+	console.log(state);
+
 	return (
 		<Container maxWidth="sm">
+			<Snackbar
+				anchorOrigin={{ vertical, horizontal }}
+				open={open}
+				onClose={() => setState({ ...state, open: false })}
+				message="Login Successfully"
+				key={vertical + horizontal}
+			/>
 			<Box sx={{ height: "50vh" }}>
 				<Card
 					sx={{
@@ -91,6 +133,7 @@ const Login = () => {
 						</CardContent>
 						<CardActions sx={{ justifyContent: "center" }}>
 							<Button
+								loading={loading}
 								disabled={!formik.values.password || !formik.values.email}
 								type="submit"
 								variant="contained"
@@ -101,6 +144,9 @@ const Login = () => {
 							</Button>
 						</CardActions>
 					</form>
+					{error && (
+						<p style={{ color: "red", padding: "0 0.8rem" }}>{error}</p>
+					)}
 				</Card>
 			</Box>
 		</Container>
